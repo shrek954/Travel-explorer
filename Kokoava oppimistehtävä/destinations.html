@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kohteet</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navigaatio -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Travel Explorer</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Etusivu</a></li>
+        <li class="nav-item"><a class="nav-link active" href="destinations.html">Kohteet</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">Tietoa</a></li>
+        <li class="nav-item"><a class="nav-link" href="palaute.html">Anna palautetta</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Ajankohtaiset matkakohteet</h2>
+
+    <!-- Maanosavalikko -->
+    <div class="text-center mb-4">
+      <button class="btn btn-outline-primary m-1 region-btn" data-region="Europe">Eurooppa</button>
+      <button class="btn btn-outline-primary m-1" id="russiaBtn">Venäjä</button>
+      <button class="btn btn-outline-primary m-1 region-btn" data-region="Asia">Aasia</button>
+      <button class="btn btn-outline-primary m-1 region-btn" data-region="America">Amerikka</button>
+      <button class="btn btn-outline-primary m-1 region-btn" data-region="Africa">Afrikka</button>
+      <button class="btn btn-outline-primary m-1 region-btn" data-region="Oceania">Oseania</button>
+    </div>
+
+    <!-- Banneri + kuvaus -->
+    <div id="continentInfo" class="mb-5"></div>
+
+    <!-- Top-kohteet -->
+    <div id="topDestinations" class="row mb-5"></div>
+
+    <!-- Kaupungin kuvaus -->
+    <div id="cityInfo" class="mb-5"></div>
+
+    <!-- API-kortit -->
+    <div class="row" id="destinations"></div>
+  </div>
+</section>
+
+<footer class="py-4 bg-light text-center">
+  <p class="mb-0">© 2026 Travel Explorer</p>
+</footer>
+
+<script>
+let allCountries = [];
+
+// Kaupunkien kuvaukset
+const cityDescriptions = {
+  "Pariisi": "Pariisi tunnetaan Eiffel-tornista, kahviloista ja romantiikasta.",
+  "Barcelona": "Barcelona on Gaudin arkkitehtuurin ja rantojen värikäs yhdistelmä.",
+  "Rooma": "Rooma tarjoaa historiaa, antiikin raunioita ja maailman parasta pastaa.",
+  "Moskova": "Moskova on moderni suurkaupunki, jossa on ikoninen Punainen tori.",
+  "Pietari": "Pietari on kulttuurin keskus, tunnettu palatseista ja museoista.",
+  "Baikal-järvi": "Baikal on maailman syvin järvi ja upea luontokohde.",
+  "Tokio": "Tokio yhdistää futuristiset pilvenpiirtäjät ja perinteiset temppelit.",
+  "Bangkok": "Bangkok on vilkas kaupunki, jossa on markkinoita ja temppeleitä.",
+  "Bali": "Bali on trooppinen paratiisi, jossa on rantoja ja riisiterasseja.",
+  "New York": "New York on kaupunki, joka ei koskaan nuku.",
+  "Rio de Janeiro": "Rio tunnetaan rannoista, karnevaaleista ja Kristus-patsaasta.",
+  "Los Angeles": "Los Angeles on Hollywoodin, rantojen ja auringon kaupunki.",
+  "Kapkaupunki": "Kapkaupunki tarjoaa vuoria, rantoja ja upeita maisemia.",
+  "Marrakech": "Marrakech on värikäs kaupunki täynnä basaareja ja historiaa.",
+  "Nairobi": "Nairobi on portti safareille ja Kenian luonnonpuistoihin.",
+  "Sydney": "Sydney tunnetaan oopperatalosta ja upeista rannoista.",
+  "Auckland": "Auckland on Uuden-Seelannin merellinen ja moderni keskus.",
+  "Fiji": "Fiji on paratiisisaari turkooseilla vesillä ja valkoisilla rannoilla."
+};
+
+// Maanosien bannerit, kuvaukset ja top-kohteet
+const continentData = {
+  Europe: {
+    image: "kaufdex-europe-2697640.jpg",
+    description: "Eurooppa tarjoaa historiallisia kaupunkeja, kulttuuria ja monipuolisia matkakohteita.",
+    top: [
+      { name: "Pariisi", img: "139904-notre-dame-490222.jpg" },
+      { name: "Barcelona", img: "jarmoluk-cathedral-427997.jpg" },
+      { name: "Rooma", img: "martinophuc-italy-9505450.jpg" }
+    ]
+  },
+
+  Russia: {
+    image: "kaufdex-russia-2697026.jpg",
+    description: "Venäjä on maailman suurin valtio, joka tarjoaa historiallisia kaupunkeja, kulttuuria ja ainutlaatuisia maisemia.",
+    top: [
+      { name: "Moskova", img: "lena15-moscow-1687591.jpg" },
+      { name: "Pietari", img: "gottagetraw-river-6990295.jpg" },
+      { name: "Baikal-järvi", img: "leah_li-baikal-2644549.jpg" }
+    ]
+  },
+
+  Asia: {
+    image: "113cd875bcea4b27218f113743120371.jpg",
+    description: "Aasia on täynnä eksoottisia elämyksiä, suurkaupunkeja ja upeita rantoja.",
+    top: [
+      { name: "Tokio", img: "anthr_photoblog-night-4336403.jpg" },
+      { name: "Bangkok", img: "walkerssk-bangkok-1759467.jpg" },
+      { name: "Bali", img: "kienhau-bali-7969001.jpg" }
+    ]
+  },
+
+  America: {
+    image: "kaufdex-flag-usa-2695061.jpg",
+    description: "Amerikka tarjoaa suurkaupunkeja, luontoa ja ikonisia nähtävyyksiä.",
+    top: [
+      { name: "New York", img: "wiggijo-usa-1777986.jpg" },
+      { name: "Rio de Janeiro", img: "12019-rio-de-janeiro-1963744.jpg" },
+      { name: "Los Angeles", img: "roselie-beverly-hills-hotel-2455977.jpg" }
+    ]
+  },
+
+  Africa: {
+    image: "wikiimages-africa-60570.jpg",
+    description: "Afrikka on safarien, aavikoiden ja ainutlaatuisten kulttuurien maanosa.",
+    top: [
+      { name: "Kapkaupunki", img: "tedd-capetown-3891441.jpg" },
+      { name: "Marrakech", img: "adlihtam-marakech-523929.jpg" },
+      { name: "Nairobi", img: "7523944-rhino-4422728.jpg" }
+    ]
+  },
+
+  Oceania: {
+    image: "political-map-of-australia-and-oceania.jpg",
+    description: "Oseania tunnetaan rannoista, luonnosta ja rentouttavasta elämäntyylistä.",
+    top: [
+      { name: "Sydney", img: "pattyjansen-sydney-opera-house-363244.jpg" },
+      { name: "Auckland", img: "robertkozak-auckland-5213705.jpg" },
+      { name: "Fiji", img: "fiji-07.jpg" }
+    ]
+  }
+};
+
+// Haetaan kaikki maat API:sta
+fetch('https://restcountries.com/v3.1/all')
+  .then(response => response.json())
+  .then(data => {
+    allCountries = data;
+    renderCountries(data.slice(0, 12));
+  });
+
+// Maat
+function renderCountries(countries) {
+  const container = document.getElementById('destinations');
+  container.innerHTML = "";
+
+  countries.forEach(country => {
+    const card = `
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img src="${country.flags.png}" class="card-img-top" alt="${country.name.common}">
+          <div class="card-body">
+            <h5 class="card-title">${country.name.common}</h5>
+            <p class="card-text">Pääkaupunki: ${country.capital}</p>
+            <p class="card-text"><small class="text-muted">${country.region}</small></p>
+          </div>
+        </div>
+      </div>`;
+    container.innerHTML += card;
+  });
+}
+
+// Banneri + kuvaus + top-kohteet
+function renderContinentInfo(region) {
+  const info = continentData[region];
+
+  document.getElementById("continentInfo").innerHTML = `
+    <div class="card mb-4 shadow-sm">
+      <img src="${info.image}" class="card-img-top" alt="${region}">
+      <div class="card-body">
+        <h3>${region}</h3>
+        <p>${info.description}</p>
+      </div>
+    </div>
+  `;
+
+  const topContainer = document.getElementById("topDestinations");
+  topContainer.innerHTML = "";
+
+  info.top.forEach(item => {
+    topContainer.innerHTML += `
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm city-card" data-city="${item.name}">
+          <img src="${item.img}" class="card-img-top" alt="${item.name}">
+          <div class="card-body">
+            <h5 class="card-title">${item.name}</h5>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Suodatus maanosan mukaan
+document.querySelectorAll('.region-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const region = btn.getAttribute('data-region');
+
+    // Amerikka API-korjaus
+    let apiRegion = region;
+    if (region === "America") apiRegion = "Americas";
+
+    renderContinentInfo(region);
+    const filtered = allCountries.filter(c => c.region === apiRegion);
+    renderCountries(filtered.slice(0, 12));
+  });
+});
+
+// Venäjä nappi
+document.getElementById("russiaBtn").addEventListener("click", () => {
+  renderContinentInfo("Russia");
+
+  const russia = allCountries.filter(c => c.name.common === "Russia");
+  renderCountries(russia);
+});
+
+// Kaupunkikortin klikkaus
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".city-card")) {
+    const city = e.target.closest(".city-card").getAttribute("data-city");
+    const description = cityDescriptions[city] || "Tietoa ei saatavilla.";
+
+    document.getElementById("cityInfo").innerHTML = `
+      <div class="card shadow-sm p-3">
+        <h4>${city}</h4>
+        <p>${description}</p>
+      </div>
+    `;
+  }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

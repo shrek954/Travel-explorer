@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Etusivu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navigaatio -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Travel Explorer</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Etusivu</a></li>
+        <li class="nav-item"><a class="nav-link" href="destinations.html">Kohteet</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">Tietoa</a></li>
+        <li class="nav-item"><a class="nav-link" href="palaute.html">Anna palautetta</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Karuselli -->
+<header>
+  <div id="travelCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <!-- Kuva 1 -->
+      <div class="carousel-item active">
+        <img src="kanenori-mountains-7543535.jpg" class="d-block w-100" alt="Vuoret">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+          <h1 class="fw-bold">Explore the World</h1>
+          <p>Inspiraatiota, kohteita ja matkahaaveita.</p>
+          <a href="destinations.html" class="btn btn-primary btn-lg mt-3">Tutustu kohteisiin</a>
+        </div>
+      </div>
+
+      <!-- Kuva 2 -->
+      <div class="carousel-item">
+        <img src="maximilianhemon-japan-5021733.jpg" class="d-block w-100" alt="Kaupunkiseikkailu">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+          <h1 class="fw-bold">Discover Cities</h1>
+          <p>Kulttuuria, ruokaa ja nähtävyyksiä ympäri maailman.</p>
+          <a href="destinations.html" class="btn btn-primary btn-lg mt-3">Tutustu kohteisiin</a>
+        </div>
+      </div>
+
+      <!-- Kuva 3 -->
+      <div class="carousel-item">
+        <img src="matyasvargaphoto-castle-6750555.jpg" class="d-block w-100" alt="Linna">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
+          <h1 class="fw-bold">Adventure Awaits</h1>
+          <p>Vaella, tutki ja hengitä raikasta ilmaa.</p>
+          <a href="destinations.html" class="btn btn-primary btn-lg mt-3">Tutustu kohteisiin</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigointinuolet -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#travelCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Edellinen</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#travelCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Seuraava</span>
+    </button>
+  </div>
+</header>
+
+<!-- Kolme kohdekorttia -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Suositut kohteet</h2>
+
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="walkerssk-beach-1761410.jpg" class="card-img-top" alt="Rantakohde">
+          <div class="card-body">
+            <h5 class="card-title">Rantalomat</h5>
+            <p class="card-text">Löydä parhaat aurinkokohteet ja rentoudu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="leonhard_niederwimmer-prague-7171444.jpg" class="card-img-top" alt="Kaupunkikohde">
+          <div class="card-body">
+            <h5 class="card-title">Kaupunkiseikkailut</h5>
+            <p class="card-text">Kulttuuria, ruokaa ja nähtävyyksiä.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <img src="ralf1403-hike-9718263.jpg" class="card-img-top" alt="Vuoristokohde">
+          <div class="card-body">
+            <h5 class="card-title">Luontomatkat</h5>
+            <p class="card-text">Vaella, tutki ja hengitä raikasta ilmaa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-4 bg-light text-center">
+  <p class="mb-0">© 2026 Travel Explorer</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
